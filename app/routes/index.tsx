@@ -10,26 +10,32 @@ export const headers: HeadersFunction = ({ actionHeaders, loaderHeaders }) => {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
+  // Random number from 1 to 100
+  const randomNumber = Math.floor(Math.random() * 100) + 1;
+  const todo = await fetch(
+    `https://jsonplaceholder.typicode.com/todos/${randomNumber}`
+  );
   const date = new Date().toISOString();
   return json(
     {
+      randomNumber,
       date,
+      todo,
       stuff: "stuff",
     },
     {
       headers: {
-        "Cache-Control": "public, max-age=60",
+        "Cache-Control": "s-maxage=60",
       },
     }
   );
 };
 
 export default function Index() {
-  let { date, stuff } = useLoaderData();
+  let data = useLoaderData();
   return (
     <>
-      <p>Date: {date}</p>
-      <p>Stuff: {stuff}</p>
+      <p>Data: {JSON.stringify(data, null, 2)}</p>
     </>
   );
 }
