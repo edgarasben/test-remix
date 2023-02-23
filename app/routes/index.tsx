@@ -12,9 +12,8 @@ export const headers: HeadersFunction = ({ actionHeaders, loaderHeaders }) => {
 export const loader: LoaderFunction = async ({ request }) => {
   // Random number from 1 to 100
   const randomNumber = Math.floor(Math.random() * 100) + 1;
-  const todo = fetch("https://dummyjson.com/todos/random").then((res) =>
-    res.json()
-  );
+  const todoReq = await fetch("https://dummyjson.com/todos/random");
+  const todo = await todoReq.json();
 
   const date = new Date().toISOString();
   return json(
